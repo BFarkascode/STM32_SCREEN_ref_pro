@@ -102,7 +102,7 @@ First are foremost, we need to figure out, how the hardware elements are wired o
 - I3G4250D gyro is on SPI5. We can simply ignore it.
 - IS42S16400J SDRAM on the FMC pins. We don’t need to implement FMC. Ignore.
 
-###Project generation bugs
+### Project generation bugs
 As mentioned above, the code shared is a direct copy of what ControllersTech is doing in his youtube video.
 
 He mentioned though that he could not make the project work in the IDE. Well, I did manage to do it, albeit by using some rather crude methods. As it goes, no matter how much we wish to implement the X-CUDE_TOUCHGFX middleware into a custom project, the project will refuse to generate it. We will be able to interact and update the part of the code using the TouchGFX software, so it is not the interfacing that is bugged. It seems to me that the CubeMX plugin is the culprit.
