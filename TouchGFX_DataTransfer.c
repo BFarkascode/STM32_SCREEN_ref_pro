@@ -1,4 +1,8 @@
-/* Functions called by the TouchGFX HAL to invoke the actual data transfer to ILI9341.
+/* 
+ *  Modified by: Balazs Farkas - 20/06/2024
+ *	Changed all SPI references to SPI5 from SPI1	
+ *
+ * Functions called by the TouchGFX HAL to invoke the actual data transfer to ILI9341.
  * Pero, 2021
  */
 
@@ -20,8 +24,6 @@ void touchgfxDisplayDriverTransmitBlock(uint8_t* pixels, uint16_t x, uint16_t y,
 	ILI9341_SetWindow(x, y, x+w-1, y+h-1);
 	ILI9341_DrawBitmap(w, h, pixels);
 
-//	ILI9341_SetWindow(x, y+h-1, x+w-1, y+2*h-1);
-//	ILI9341_DrawBitmap(w, h, (pixels+12800));			//this won't work since the area the pointer is running through is wiped outside the section we intend to publish
 }
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
