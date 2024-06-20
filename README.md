@@ -1,5 +1,5 @@
 # STM32_SCREEN_ref_pro
-Reference/base project for a bare metal screen driving project on a STM32_F429_DISCO board. This is the first project in a sequence of projects aimed.  
+Reference/base project for a bare metal screen driving project on a STM32_F429_DISCO board. This is the first project in a sequence of projects planned.  
 
 ## Disclaimer
 The code shared in this project is simply a slightly modified version of the solution from ControllersTech/Helentronica, allowing me to run it on my DISCO board. I wish not to take credit for it. 
