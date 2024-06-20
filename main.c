@@ -1,5 +1,14 @@
 /* USER CODE BEGIN Header */
 /**
+ *  Author: BalazsFarkas
+ *  Project: STM32_SCREEN_ref_pro
+ *  Processor: STM32F429ZI
+ *  Compiler: ARM-GCC (STM32 IDE)
+ *  Program version: 1.0
+ *  File: main.c
+ *  Hardware description/pin distribution: SPI5 on PF7/PF8/PF9, CS on PC2, WRX_CDX on PD13
+ *  Modified from: N/A
+ *  Change history: N/A
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
