@@ -39,7 +39,7 @@ On the other hand, we have a few newcomers that may not have been seen before:
 - FREERTOS is the go-to real time operating system for MCUs. It allows parallel computing, meaning that our main code could run the same time as the graphic interface is updated. This is of course pretty useful and decreases latency between user input and the device doing stuff. FREERTOS is a “middleware”, a code section that is external to our main loop.
 - X-CUBE-TOUCHGFX is the graphic engine generated and implemented into our code by the TouchGFX software. It is a “middleware” and is external to the main loop. It also has some read-only elements which we will not be able to tinker with later using the IDE.
 
-### A problem of excess?
+### Is there a problem of excess?
 One might wonder, why it is necessary to have so much stuff running at the same time to just publish a simple image to a screen. Well, it isn’t. Simply put, the project we have generated is optimized for speed and utility already, which means that it is far from the kind of “simple”, “low resource” project we are looking for as our base.
 
 After reading a bit more and exploring the configuration, it became clear to me that:
