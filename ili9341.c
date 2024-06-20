@@ -3,6 +3,7 @@
  *
  *  Modified by: Balazs Farkas - 20/06/2024
  *	Changed all SPI references to SPI5 from SPI1	
+ *	Modified the CSx and the WRX_DCX pin controls to match the new pin distro
  *
  *  Created on: 2019/12/26
  *      Author: Kotetsu Yamamoto
