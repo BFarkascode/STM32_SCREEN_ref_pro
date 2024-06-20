@@ -34,7 +34,7 @@ Okay then, let’s do the long way around. Go through a basic the tutorial for t
 
 To recap, generated using official code from the official sites using the official tools on an official hardware, the result is bugged. Times like these always remind me why I started to avoid using officially provided HAL code for any of my designs and go bare metal where possible…
 
-(Just an FYI, the bug is within the “STM32TouchCotnroller.cpp” file’s “bool STM32TouchController::sampleTouch” function where the touch position is aligned with the screen. Replace the Y axis line with “y = 300 - state.Y;” to get rid of it. My guess the example was written for a board revision that is not the same as the one available these days on the market.) 
+(Just an FYI, the bug is within the “STM32TouchController.cpp” file’s “bool STM32TouchController::sampleTouch” function where the touch position is aligned with the screen. Replace the Y axis line with “y = 300 - state.Y;” to get rid of it. My guess the example was written for a board revision that is not the same as the one available these days on the market.) 
 
 No matter. For investigating the hardware and the software and to figure out, what the hell is going on under the hood of the DISCO board, this bug is irrelevant. We won’t be using the touch screen anyway. What matters is that we have a screen working with a gui that we have designed using the TouchGFX software.
 
@@ -87,8 +87,7 @@ I highly recommend checking the following youtube videos and read the related do
 - How to set up TouchGFX with SPI Displays || ILI9341 - YouTube
 - TouchGFX on a custom made low cost board with the ILI9341 controller over SPI – HELENTRONICA
 
-It is also a good idea to familiarise oneself with the ICs and hardware elements available on our DISCO board. I don’t share the datasheets and the refmans here, but we have:
-- STM32F429ZI_DISCO schematic
+It is also a good idea to familiarise oneself with the ICs and hardware elements we will be using on the DISCO board. I don’t share the datasheets and the refmans here, but we have the following ICs:
 - STM32F249ZI MCU (datasheet and refman both needed)
 - FRIDA_LCD_FRD240C48003-B screen
 - ILI9341 screen driver
@@ -96,23 +95,23 @@ It is also a good idea to familiarise oneself with the ICs and hardware elements
 ## Particularities
 
 ### The hardware unravelled
-First are foremost, we need to figure out, how are hardware elements are wired on our DISCO board. Thankfully, we have access to the schematics of our DISCO board on ST’s site, so we can take note of the parts:
+First are foremost, we need to figure out, how the hardware elements are wired on our DISCO board. Thankfully, we have access to the schematics of our DISCO board on ST’s site, so we can take note of the parts:
 - STM32F249ZI is the MCU. This is a relatively low-end microcontroller, pretty much the smallest that can both drive an LCD using parallel and also interface parallel with a camera.
-- FRIDA_LCD_FRD240C48003-B is the screen with ILI9341 as the integrated screen driver. Here we must pay attention to the different pins that change label between the screen and the MCU, such as “CSX” which turns into CS or the WR running into “WRX_DCX”. These pins are important for the SPI driving and we will need to implement them manually (see “ili9341.c”). Also, we can see from the schematic that the screen is connected to SPI5 so all drivers we will be implementing will have to point to this bus (see “ili9341.c” for the driver and “TouchGFX_DataTransfer.c” for the DMA callback function(!)). Also-also, as mentioned above, the ILI9341 controls pins (IM[3:0]) are hard-wired for 8-bit SPI control. To change that we would need to modify our board…Also-also-also, the LTDC pins are all connected to the screen, but we won’t be needing them.
-- STMPE811QTR touch sensor on I2C3. We can ignore that since we won’t be using it. Same time, we can ditch setting up I2C3 in our new code.
+- FRIDA_LCD_FRD240C48003-B is the screen with ILI9341 as the integrated screen driver. Checking the schematic, we must pay attention to the different pins that change label between the screen and the MCU, such as “CSX” which turns into CS or the WR running into “WRX_DCX”. These pins are important for the SPI driving and we will need to implement them manually (see “ili9341.c”). Also, we can see from the schematic that the screen is connected to SPI5 so all screen drivers will have to point to this bus (see “ili9341.c” for the driver and “TouchGFX_DataTransfer.c” for the DMA callback function(!)). Also-also, as mentioned above, the ILI9341 controls pins (IM[3:0]) are hard-wired for 8-bit SPI control. To change that we would need to modify our board.
+- STMPE811QTR touch sensor on I2C3. We can ignore that since we won’t be using it. Same time, we can ditch setting up I2C3 in our new code completely.
 - I3G4250D gyro is on SPI5. We can simply ignore it.
-- IS42S16400J SDRAM on the FMC pins. We don’t need to implement FMC.
+- IS42S16400J SDRAM on the FMC pins. We don’t need to implement FMC. Ignore.
 
 ###Project generation bugs
 As mentioned above, the code shared is a direct copy of what ControllersTech is doing in his youtube video.
 
 He mentioned though that he could not make the project work in the IDE. Well, I did manage to do it, albeit by using some rather crude methods. As it goes, no matter how much we wish to implement the X-CUDE_TOUCHGFX middleware into a custom project, the project will refuse to generate it. We will be able to interact and update the part of the code using the TouchGFX software, so it is not the interfacing that is bugged. It seems to me that the CubeMX plugin is the culprit.
 
-A workaround is to manually copy-paste the “Middleware” folder from another project to this one (the discarded example project is coming handy here) and then refresh the modified project tree. Don’t forget to add the path to this folder within Project->Properties->C/C++ General->Paths and Symbols so as to include it into the project! This workaround is very crude and will need to be redone every time we generate a new code using the CubeMX.
+A workaround is to manually copy-paste the “Middleware” folder from another project our news one (the discarded example project is coming handy here) and then refresh the modified project tree. Don’t forget to add the path to this folder within Project->Properties->C/C++ General->Paths and Symbols so as to include it into the project! This workaround is very crude and will need to be redone every time we generate a new code using the CubeMX.
 
 ## User guide
 One can simply follow the youtube video from ControllersTech to make use of this code.
 
 ## Conclusion
-Now that we have a nice working base project, we can start modifying (breaking) things.
+Now that we have a nice working base project, we can start modifying (breaking) things!
 
